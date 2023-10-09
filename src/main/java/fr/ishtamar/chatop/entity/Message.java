@@ -2,8 +2,8 @@ package fr.ishtamar.chatop.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -11,22 +11,26 @@ import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
 
-@Entity
 @Data
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
-public class Rental {
+@AllArgsConstructor
+@Entity
+public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Size(max=63)
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "rental_id", referencedColumnName = "id")
+    private Rental rental;
 
     @ManyToOne
-    @JoinColumn(name="user_id",referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserInfo user;
+
+    @NotNull
+    private String message;
 
     @CreatedDate
     @Column(updatable = false)

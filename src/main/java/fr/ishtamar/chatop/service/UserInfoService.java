@@ -20,6 +20,12 @@ public class UserInfoService implements UserDetailsService {
     @Autowired
     private PasswordEncoder encoder;
 
+    /**
+     * Tries to find user corresponding to unique username
+     * @param username - Unique name or email
+     * @return User corresponding to username
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //[X-01] Choose findByName or findByEmail
@@ -30,6 +36,12 @@ public class UserInfoService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found " + username));
     }
 
+    /**
+     * Tries to add user if they don't exist
+     * @param userInfo - user's data
+     * @return a validation String
+     * @throws EmailAlreadyUsedException
+     */
     public String addUser(UserInfo userInfo) throws EmailAlreadyUsedException {
         Optional<UserInfo> userDetail = repository.findByEmail(userInfo.getEmail());
         if (userDetail.isPresent()){
@@ -41,6 +53,12 @@ public class UserInfoService implements UserDetailsService {
         }
     }
 
+    /**
+     * Tries to find user corresponding to unique unsername
+     * @param username - Unique name or email
+     * @return User DTO (data-protection safe)
+     * @throws UsernameNotFoundException
+     */
     public UserDto getUserDtoByUsername(String username) throws UsernameNotFoundException {
         //[X-01] Choose findByName or findByEmail
         Optional<UserInfo> userDetail = repository.findByEmail(username);
