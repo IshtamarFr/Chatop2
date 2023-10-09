@@ -40,13 +40,17 @@ public class UserController {
         return service.addUser(userInfo);
     }
 
+    @Operation(summary = "gets personal data from logged in user",responses={
+            @ApiResponse(responseCode="200", description = "Personal data is displayed"),
+            @ApiResponse(responseCode="403", description = "Access unauthorized")
+    })
     @GetMapping("/me")
     @PreAuthorize("hasAuthority('ROLE_USER')")
     public String userProfile() {
         return "Welcome to User Profile";
     }
 
-    @Operation(summary = "generate new JWT",responses={
+    @Operation(summary = "logins user and returns JWT",responses={
             @ApiResponse(responseCode="200", description = "Token successfully created"),
             @ApiResponse(responseCode="403", description = "Access unauthorized")
     })
