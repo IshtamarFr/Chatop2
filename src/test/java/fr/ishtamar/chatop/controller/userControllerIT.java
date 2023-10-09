@@ -38,19 +38,18 @@ public class userControllerIT {
         mockUser.setName("Ishta");
         mockUser.setEmail("test@test.com");
         mockUser.setPassword("123456");
-        mockUser.setRoles("ROLE_USER");
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/auth/addNewUser")
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/auth/register")
                 .contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(mockUser)))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void testGenerateToken() throws Exception {
+    public void testLogin() throws Exception {
         //[X-01] Choose getName or getEmail
         AuthRequest mockRequest=new AuthRequest();
         mockRequest.setUsername("test@test.com");
         mockRequest.setPassword("123456");
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/auth/generateToken")
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(mockRequest)))
                 .andExpect(status().isOk());
     }

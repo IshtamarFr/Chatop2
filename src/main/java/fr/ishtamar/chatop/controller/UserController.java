@@ -35,28 +35,22 @@ public class UserController {
             @ApiResponse(responseCode="200", description = "User successfully created"),
             @ApiResponse(responseCode="400", description = "User already exists")
     })
-    @PostMapping("/addNewUser")
+    @PostMapping("/register")
     public String addNewUser(@RequestBody UserInfo userInfo) {
         return service.addUser(userInfo);
     }
 
-    @GetMapping("/user/userProfile")
+    @GetMapping("/me")
     @PreAuthorize("hasAuthority('ROLE_USER')")
     public String userProfile() {
         return "Welcome to User Profile";
-    }
-
-    @GetMapping("/admin/adminProfile")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public String adminProfile() {
-        return "Welcome to Admin Profile";
     }
 
     @Operation(summary = "generate new JWT",responses={
             @ApiResponse(responseCode="200", description = "Token successfully created"),
             @ApiResponse(responseCode="403", description = "Access unauthorized")
     })
-    @PostMapping("/generateToken")
+    @PostMapping("/login")
     public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
         if (authentication.isAuthenticated()) {
@@ -65,5 +59,4 @@ public class UserController {
             throw new UsernameNotFoundException("invalid user request !");
         }
     }
-
 }

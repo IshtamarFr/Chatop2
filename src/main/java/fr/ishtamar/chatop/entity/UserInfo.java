@@ -6,6 +6,10 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.util.Date;
 
 @Entity
 @Data
@@ -30,5 +34,13 @@ public class UserInfo {
     @Size(max=60)
     private String password;
 
-    private String roles;
+    @NotNull
+    private String roles="ROLE_USER";
+
+    @CreatedDate
+    @Column(updatable = false)
+    private Date created_at=new Date();
+
+    @UpdateTimestamp
+    private Date updated_at;
 }
