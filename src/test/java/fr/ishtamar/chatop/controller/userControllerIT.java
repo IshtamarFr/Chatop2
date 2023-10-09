@@ -37,7 +37,8 @@ public class userControllerIT {
         UserInfo mockUser=new UserInfo();
         mockUser.setName("Ishta");
         mockUser.setEmail("test@test.com");
-        mockUser.setPassword("123456789");
+        mockUser.setPassword("123456");
+        mockUser.setRoles("ROLE_USER");
         this.mockMvc.perform(MockMvcRequestBuilders.post("/auth/addNewUser")
                 .contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(mockUser)))
                 .andExpect(status().isBadRequest());

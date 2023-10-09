@@ -23,7 +23,7 @@ public class UserInfoServiceIT {
     @Test
     public void testUserDto() {
         //[X-01] Choose test@test.com or Ishta
-        UserDto userDto=userInfoService.getUserDtobyUsername("test@test.com");
+        UserDto userDto=userInfoService.getUserDtoByUsername("test@test.com");
         assertThat(userDto.getName()).isEqualTo("Ishta");
     }
 }

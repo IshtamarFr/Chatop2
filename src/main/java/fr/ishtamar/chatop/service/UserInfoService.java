@@ -41,7 +41,7 @@ public class UserInfoService implements UserDetailsService {
         }
     }
 
-    public UserDto getUserDtobyUsername(String username) throws UsernameNotFoundException {
+    public UserDto getUserDtoByUsername(String username) throws UsernameNotFoundException {
         //[X-01] Choose findByName or findByEmail
         Optional<UserInfo> userDetail = repository.findByEmail(username);
         // Converting userDetail to UserDto

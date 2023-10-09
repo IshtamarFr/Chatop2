@@ -1,9 +1,9 @@
 package fr.ishtamar.chatop.repository;
 
-import fr.ishtamar.chatop.entity.Truc;
+import fr.ishtamar.chatop.entity.Rental;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TrucRepository extends JpaRepository<Truc, Long> {
+public interface RentalRepository extends JpaRepository<Rental, Long> {
 }
