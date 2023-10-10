@@ -3,6 +3,7 @@ package fr.ishtamar.chatop.controller;
 import fr.ishtamar.chatop.dto.AuthRequest;
 import fr.ishtamar.chatop.dto.UserDto;
 import fr.ishtamar.chatop.entity.UserInfo;
+import fr.ishtamar.chatop.exceptionhandler.EntityNotFoundException;
 import fr.ishtamar.chatop.service.JwtService;
 import fr.ishtamar.chatop.service.UserInfoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/auth")
 public class UserController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     @Operation(hidden=true)
-    @GetMapping("/welcome")
+    @GetMapping("/auth/welcome")
     public String welcome() {
         return "Welcome this endpoint is not secure";
     }
@@ -39,7 +39,7 @@ public class UserController {
             @ApiResponse(responseCode="200", description = "User successfully created"),
             @ApiResponse(responseCode="400", description = "User already exists")
     })
-    @PostMapping("/register")
+    @PostMapping("/auth/register")
     public Map<String,String> addNewUser(@RequestBody UserInfo userInfo) {
         service.addUser(userInfo);
         Map<String,String>map=new HashMap<>();
@@ -51,7 +51,7 @@ public class UserController {
             @ApiResponse(responseCode="200", description = "Personal data is displayed"),
             @ApiResponse(responseCode="403", description = "Access unauthorized")
     })
-    @GetMapping("/me")
+    @GetMapping("/auth/me")
     @PreAuthorize("hasAuthority('ROLE_USER')")
     public UserDto userProfile(@RequestHeader("Authorization") String jwt) {
         return service.getUserDtoByUsername(jwtService.extractUsername(jwt.substring(7)));
@@ -61,7 +61,7 @@ public class UserController {
             @ApiResponse(responseCode="200", description = "Token successfully created"),
             @ApiResponse(responseCode="403", description = "Access unauthorized")
     })
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public Map<String,String> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
         if (authentication.isAuthenticated()) {
@@ -71,5 +71,15 @@ public class UserController {
         } else {
             throw new UsernameNotFoundException("invalid user request !");
         }
+    }
+
+    @Operation(summary = "gets personal data from user by id",responses={
+            @ApiResponse(responseCode="200", description = "Personal data is displayed"),
+            @ApiResponse(responseCode="403", description = "Access unauthorized")
+    })
+    @GetMapping("/user/{id}")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    public UserDto getUserById(@PathVariable("id") final long id) throws EntityNotFoundException {
+        return service.getUserDtoById(id);
     }
 }

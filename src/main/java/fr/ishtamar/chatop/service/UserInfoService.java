@@ -1,5 +1,6 @@
 package fr.ishtamar.chatop.service;
 
+import fr.ishtamar.chatop.exceptionhandler.EntityNotFoundException;
 import fr.ishtamar.chatop.repository.UserInfoRepository;
 import fr.ishtamar.chatop.dto.UserDto;
 import fr.ishtamar.chatop.entity.UserInfo;
@@ -27,13 +28,13 @@ public class UserInfoService implements UserDetailsService {
      * @throws UsernameNotFoundException
      */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws EntityNotFoundException {
         //[X-01] Choose findByName or findByEmail
         Optional<UserInfo> userDetail = repository.findByEmail(username);
 
         // Converting userDetail to UserDetails
         return userDetail.map(UserInfoDetails::new)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found " + username));
+                .orElseThrow(() -> new EntityNotFoundException(UserDetails.class,"username",username));
     }
 
     /**
@@ -59,11 +60,18 @@ public class UserInfoService implements UserDetailsService {
      * @return User DTO (data-protection safe)
      * @throws UsernameNotFoundException
      */
-    public UserDto getUserDtoByUsername(String username) throws UsernameNotFoundException {
+    public UserDto getUserDtoByUsername(String username) throws EntityNotFoundException {
         //[X-01] Choose findByName or findByEmail
         Optional<UserInfo> userDetail = repository.findByEmail(username);
         // Converting userDetail to UserDto
         return userDetail.map(UserDto::new)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found " + username));
+                .orElseThrow(() -> new EntityNotFoundException(UserDetails.class,"username",username));
+    }
+
+    public UserDto getUserDtoById(Long id) throws EntityNotFoundException {
+        Optional<UserInfo> userDetail = repository.findById(id);
+        // Converting userDetail to UserDto
+        return userDetail.map(UserDto::new)
+                .orElseThrow(() -> new EntityNotFoundException(UserDetails.class,"id",id.toString()));
     }
 }
