@@ -10,7 +10,7 @@ public class RentalDto {
     private Long id;
 
     private String name;
-    private Long user_id;
+    private Long owner_id;
 
     private float surface;
     private float price;
@@ -24,7 +24,7 @@ public class RentalDto {
     public RentalDto(Rental rental) {
         id=rental.getId();
         name=rental.getName();
-        user_id=rental.getUser().getId();
+        owner_id=rental.getUser().getId();
         surface= rental.getSurface();
         price=rental.getPrice();
         picture=rental.getPicture();

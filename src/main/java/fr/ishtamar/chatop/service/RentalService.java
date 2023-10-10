@@ -29,7 +29,7 @@ public class RentalService {
         List<RentalDto>rentalDtos=new ArrayList<>();
         for (Rental rental : rentals) {
             RentalDto eDto = new RentalDto(rental);
-            eDto.setUser_id(rental.getUser().getId());
+            eDto.setOwner_id(rental.getUser().getId());
             rentalDtos.add(eDto);
         }
         return rentalDtos;
@@ -45,7 +45,7 @@ public class RentalService {
         Optional<Rental>rental=repository.findById(id);
         if (rental.isPresent()) {
             RentalDto eDto=new RentalDto(rental.get());
-            eDto.setUser_id(rental.get().getUser().getId());
+            eDto.setOwner_id(rental.get().getUser().getId());
             return eDto;
         } else {
             throw new EntityNotFoundException(Rental.class,"id",id.toString());
