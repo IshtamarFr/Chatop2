@@ -1,5 +1,7 @@
 package fr.ishtamar.chatop.service;
 
+import fr.ishtamar.chatop.config.AppConfig;
+import fr.ishtamar.chatop.dto.RentalDto;
 import fr.ishtamar.chatop.entity.Rental;
 import fr.ishtamar.chatop.exceptionhandler.EntityNotFoundException;
 import fr.ishtamar.chatop.repository.RentalRepository;
@@ -10,6 +12,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,8 +25,15 @@ public class RentalService {
      * Gets all rentals
      * @return List of all rentals
      */
-    public List<Rental> getAllRentals() {
-        return repository.findAll();
+    public List<RentalDto> getAllRentals() {
+        List<Rental>rentals=repository.findAll();
+        List<RentalDto>rentalDtos=new ArrayList<>();
+        for (Rental rental : rentals) {
+            RentalDto eDto = new RentalDto(rental);
+            eDto.setUser_id(rental.getUser().getId());
+            rentalDtos.add(eDto);
+        }
+        return rentalDtos;
     }
 
     /**

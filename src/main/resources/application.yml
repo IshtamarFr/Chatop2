@@ -14,7 +14,7 @@ spring:
 
 #JWT Security
 fr.ishtamar.security.jwt:
-  lifespan: 30 #jwt duration in minutes
+  lifespan: 9999 #jwt duration in minutes
   secret: 1117566B59812468367639792F423E4528482B4D6253A95468574B5A71347211
   dev-url: ${server.servlet.context-path}/
   prod-url: test.com

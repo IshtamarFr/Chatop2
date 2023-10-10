@@ -1,5 +1,6 @@
 package fr.ishtamar.chatop.controller;
 
+import fr.ishtamar.chatop.dto.RentalDto;
 import fr.ishtamar.chatop.entity.Rental;
 import fr.ishtamar.chatop.service.RentalService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,8 +26,8 @@ public class RentalController {
     })
     @GetMapping("/rentals")
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    public HashMap<String, List<Rental>> getAllRentals() {
-        HashMap<String, List<Rental>> map = new HashMap<>();
+    public HashMap<String, List<RentalDto>> getAllRentals() {
+        HashMap<String, List<RentalDto>> map = new HashMap<>();
         map.put("rentals", service.getAllRentals());
         return map;
     }
