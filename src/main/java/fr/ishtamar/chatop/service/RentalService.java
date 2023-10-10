@@ -41,10 +41,12 @@ public class RentalService {
      * @return Rental
      * @throws EntityNotFoundException
      */
-    public Rental getRentalById(final Long id) throws EntityNotFoundException {
-        Optional<Rental>candidate=repository.findById(id);
-        if (candidate.isPresent()) {
-            return candidate.get();
+    public RentalDto getRentalById(final Long id) throws EntityNotFoundException {
+        Optional<Rental>rental=repository.findById(id);
+        if (rental.isPresent()) {
+            RentalDto eDto=new RentalDto(rental.get());
+            eDto.setUser_id(rental.get().getUser().getId());
+            return eDto;
         } else {
             throw new EntityNotFoundException(Rental.class,"id",id.toString());
         }
