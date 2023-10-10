@@ -25,6 +25,9 @@ public class JwtService {
     @Value("${fr.ishtamar.security.jwt.secret}")
     private String SECRET;
 
+    @Value("${fr.ishtamar.security.jwt.lifespan}")
+    private Long lifespan;
+
     public String generateToken(String userName) {
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, userName);
@@ -35,7 +38,7 @@ public class JwtService {
                 .setClaims(claims)
                 .setSubject(userName)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
+                .setExpiration(new Date(System.currentTimeMillis() + 60000 * lifespan))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
     }
 
