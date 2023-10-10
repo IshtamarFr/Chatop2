@@ -28,6 +28,14 @@ public class Rental {
     @JoinColumn(name="user_id",referencedColumnName = "id")
     private UserInfo user;
 
+    @NotNull
+    private float surface;
+    @NotNull
+    private float price;
+
+    private String picture;
+    private String description;
+
     @CreatedDate
     @Column(updatable = false)
     private Date created_at=new Date();
