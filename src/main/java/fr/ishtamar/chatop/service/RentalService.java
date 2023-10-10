@@ -1,6 +1,5 @@
 package fr.ishtamar.chatop.service;
 
-import fr.ishtamar.chatop.config.AppConfig;
 import fr.ishtamar.chatop.dto.RentalDto;
 import fr.ishtamar.chatop.entity.Rental;
 import fr.ishtamar.chatop.exceptionhandler.EntityNotFoundException;
