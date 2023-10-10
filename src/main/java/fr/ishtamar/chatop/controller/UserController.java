@@ -1,6 +1,7 @@
 package fr.ishtamar.chatop.controller;
 
 import fr.ishtamar.chatop.dto.AuthRequest;
+import fr.ishtamar.chatop.dto.UserDto;
 import fr.ishtamar.chatop.entity.UserInfo;
 import fr.ishtamar.chatop.service.JwtService;
 import fr.ishtamar.chatop.service.UserInfoService;
@@ -13,6 +14,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -36,8 +40,11 @@ public class UserController {
             @ApiResponse(responseCode="400", description = "User already exists")
     })
     @PostMapping("/register")
-    public String addNewUser(@RequestBody UserInfo userInfo) {
-        return service.addUser(userInfo);
+    public Map<String,String> addNewUser(@RequestBody UserInfo userInfo) {
+        service.addUser(userInfo);
+        Map<String,String>map=new HashMap<>();
+        map.put("token",jwtService.generateToken(userInfo.getEmail()));
+        return map;
     }
 
     @Operation(summary = "gets personal data from logged in user",responses={
@@ -46,8 +53,8 @@ public class UserController {
     })
     @GetMapping("/me")
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    public String userProfile() {
-        return "Welcome to User Profile";
+    public UserDto userProfile(@RequestHeader("Authorization") String jwt) {
+        return service.getUserDtoByUsername(jwtService.extractUsername(jwt.substring(7)));
     }
 
     @Operation(summary = "logins user and returns JWT",responses={
@@ -55,10 +62,12 @@ public class UserController {
             @ApiResponse(responseCode="403", description = "Access unauthorized")
     })
     @PostMapping("/login")
-    public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+    public Map<String,String> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(authRequest.getUsername());
+            Map<String,String>map=new HashMap<>();
+            map.put("token",jwtService.generateToken(authRequest.getEmail()));
+            return map;
         } else {
             throw new UsernameNotFoundException("invalid user request !");
         }

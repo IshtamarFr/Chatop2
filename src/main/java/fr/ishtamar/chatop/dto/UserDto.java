@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 
@@ -33,5 +32,7 @@ public class UserDto {
         id= userInfo.getId();
         name= userInfo.getName();
         email = userInfo.getEmail();
+        created_at=userInfo.getCreated_at();
+        updated_at=userInfo.getUpdated_at();
     }
 }

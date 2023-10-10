@@ -47,7 +47,7 @@ public class userControllerIT {
     public void testLogin() throws Exception {
         //[X-01] Choose getName or getEmail
         AuthRequest mockRequest=new AuthRequest();
-        mockRequest.setUsername("test@test.com");
+        mockRequest.setEmail("test@test.com");
         mockRequest.setPassword("123456");
         this.mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
                 .contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(mockRequest)))
