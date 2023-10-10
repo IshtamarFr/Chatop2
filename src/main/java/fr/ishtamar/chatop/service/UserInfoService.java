@@ -74,4 +74,11 @@ public class UserInfoService implements UserDetailsService {
         return userDetail.map(UserDto::new)
                 .orElseThrow(() -> new EntityNotFoundException(UserDetails.class,"id",id.toString()));
     }
+
+    public UserDetails getUserById(Long id) throws EntityNotFoundException {
+        Optional<UserInfo> userDetail = repository.findById(id);
+        // Converting userDetail to UserDetails
+        return userDetail.map(UserInfoDetails::new)
+                .orElseThrow(() -> new EntityNotFoundException(UserDetails.class,"id",id.toString()));
+    }
 }

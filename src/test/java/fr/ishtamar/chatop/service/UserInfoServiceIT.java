@@ -26,4 +26,9 @@ public class UserInfoServiceIT {
         UserDto userDto=userInfoService.getUserDtoByUsername("test@test.com");
         assertThat(userDto.getName()).isEqualTo("Ishta");
     }
+
+    @Test void testGetUserById() {
+        UserDetails user=userInfoService.getUserById(10L);
+        assertThat(user.getUsername()).isEqualTo("test@test.com");
+    }
 }
