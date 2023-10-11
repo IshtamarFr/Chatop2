@@ -1,5 +1,6 @@
 package fr.ishtamar.chatop.entity;
 
+import fr.ishtamar.chatop.dto.RentalDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -42,4 +43,11 @@ public class Rental {
 
     @UpdateTimestamp
     private Date updated_at;
+
+    public Rental(RentalDto rentalDto){
+        name=rentalDto.getName();
+        surface=rentalDto.getSurface();
+        price=rentalDto.getPrice();
+        description=rentalDto.getDescription();
+    }
 }

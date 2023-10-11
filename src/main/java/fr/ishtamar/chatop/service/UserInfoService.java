@@ -23,7 +23,7 @@ public class UserInfoService implements UserDetailsService {
 
     /**
      * Tries to find user corresponding to unique username
-     * @param username - Unique name or email
+     * @param username Unique name or email
      * @return User corresponding to username
      * @throws UsernameNotFoundException
      */
@@ -39,7 +39,7 @@ public class UserInfoService implements UserDetailsService {
 
     /**
      * Tries to add user if they don't exist
-     * @param userInfo - user's data
+     * @param userInfo User's data
      * @return a validation String
      * @throws EmailAlreadyUsedException
      */
@@ -56,7 +56,7 @@ public class UserInfoService implements UserDetailsService {
 
     /**
      * Tries to find user corresponding to unique unsername
-     * @param username - Unique name or email
+     * @param username Unique name or email
      * @return User DTO (data-protection safe)
      * @throws UsernameNotFoundException
      */
@@ -68,6 +68,12 @@ public class UserInfoService implements UserDetailsService {
                 .orElseThrow(() -> new EntityNotFoundException(UserDetails.class,"username",username));
     }
 
+    /**
+     * Tries to find UserDto by long id
+     * @param id Long id for user
+     * @return UserDto corresponding
+     * @throws EntityNotFoundException
+     */
     public UserDto getUserDtoById(Long id) throws EntityNotFoundException {
         Optional<UserInfo> userDetail = repository.findById(id);
         // Converting userDetail to UserDto
@@ -75,6 +81,12 @@ public class UserInfoService implements UserDetailsService {
                 .orElseThrow(() -> new EntityNotFoundException(UserDetails.class,"id",id.toString()));
     }
 
+    /**
+     * Tries to find User by long id
+     * @param id Long id for user
+     * @return UserDetails corresponding
+     * @throws EntityNotFoundException
+     */
     public UserDetails getUserById(Long id) throws EntityNotFoundException {
         Optional<UserInfo> userDetail = repository.findById(id);
         // Converting userDetail to UserDetails

@@ -37,16 +37,16 @@ public class RentalService {
 
     /**
      * Gets a rental by Id if it exists
-     * @param id - id for rental
+     * @param id id for rental
      * @return Rental
      * @throws EntityNotFoundException
      */
     public RentalDto getRentalById(final Long id) throws EntityNotFoundException {
         Optional<Rental>rental=repository.findById(id);
         if (rental.isPresent()) {
-            RentalDto eDto=new RentalDto(rental.get());
-            eDto.setOwner_id(rental.get().getUser().getId());
-            return eDto;
+            RentalDto rentalDto=new RentalDto(rental.get());
+            rentalDto.setOwner_id(rental.get().getUser().getId());
+            return rentalDto;
         } else {
             throw new EntityNotFoundException(Rental.class,"id",id.toString());
         }
@@ -54,7 +54,7 @@ public class RentalService {
 
     /**
      * Saves picture to local folder and returns file path and name
-     * @param multipartFile - Picture to save
+     * @param multipartFile Picture to save
      * @return path/"obfuscated file name"
      * @throws IOException
      */
@@ -64,6 +64,11 @@ public class RentalService {
         return ("/Files-Upload/" + filecode);
     }
 
+    /**
+     * Saves rental into database
+     * @param rental Rental to be saved
+     * @return saved Rental
+     */
     public Rental saveRental(Rental rental) {
         return repository.save(rental);
     }

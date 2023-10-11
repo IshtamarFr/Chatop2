@@ -1,5 +1,6 @@
 package fr.ishtamar.chatop.entity;
 
+import fr.ishtamar.chatop.dto.UserDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -43,4 +44,9 @@ public class UserInfo {
 
     @UpdateTimestamp
     private Date updated_at;
+
+    public UserInfo(UserDto userDto){
+        name= userDto.getName();
+        email= userDto.getEmail();
+    }
 }

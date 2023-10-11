@@ -22,7 +22,7 @@ public class UserInfoDetails implements UserDetails {
 
     /**
      * Used to parse authorities into a List of Strings
-     * @param userInfo - User
+     * @param userInfo User
      */
     public UserInfoDetails(UserInfo userInfo) {
         //[X-01] Choose getName or getEmail
