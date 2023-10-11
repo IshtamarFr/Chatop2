@@ -3,6 +3,7 @@ package fr.ishtamar.chatop.controller;
 import fr.ishtamar.chatop.dto.RentalDto;
 import fr.ishtamar.chatop.entity.Rental;
 import fr.ishtamar.chatop.entity.UserInfo;
+import fr.ishtamar.chatop.exceptionhandler.OwnerMismatchException;
 import fr.ishtamar.chatop.service.JwtService;
 import fr.ishtamar.chatop.service.RentalService;
 import fr.ishtamar.chatop.service.UserInfoService;
@@ -73,5 +74,52 @@ public class RentalController {
         candidate.setDescription(description);
         candidate.setPicture(service.savePicture(multipartFile));
         return service.saveRental(candidate);
+    }
+
+    @Operation(summary = "modify owner's rental",responses={
+            @ApiResponse(responseCode="200", description = "Successfully created new rental"),
+            @ApiResponse(responseCode="403", description = "Access unauthorized"),
+            @ApiResponse(responseCode = "400", description="Incorrect user")
+    })
+    @PutMapping("/rentals/{id}")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    //@formatter:off
+    /*
+     * IMPORTANT :
+     * 1- this PutMapping gets PathVariable for Rental's id
+     * 2- Owner's id must be gotten from Jwt and checked against expected owner's id
+     * 3- This method doesn't allow to change picture (not a requested feature)
+     */
+    //@formatter: on
+    public RentalDto modifyRental(
+            //@formatter: off
+            @RequestParam("name") String name,
+            @RequestParam("surface") float surface,
+            @RequestParam("price") float price,
+            @RequestParam("description") String description,
+            @PathVariable("id") long id,
+            @RequestHeader("Authorization") String jwt
+            //@formatter: on
+    ) throws OwnerMismatchException {
+        //we first try to check get the owner's id from jwt owner (already validated)
+        String userName=jwtService.extractUsername(jwt.substring(7));
+        UserInfo user=userInfoService.getUserByUsername(userName);
+        long ownerId=user.getId();
+        RentalDto candidate = service.getRentalById(id);
+        if (ownerId==candidate.getOwner_id()) {
+            //token's owner matches with rental's owner's id
+            Rental modification=new Rental();
+            modification.setId(id);
+            modification.setName(name);
+            modification.setSurface(surface);
+            modification.setPrice(price);
+            modification.setPicture(candidate.getPicture());
+            modification.setDescription(description);
+            modification.setUser(user);
+            modification.setCreated_at(candidate.getCreated_at());
+            return service.saveRental(modification);
+        } else {
+            throw new OwnerMismatchException();
+        }
     }
 }

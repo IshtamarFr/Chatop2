@@ -41,4 +41,11 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         apiError.setMessage("This email is already registered");
         return buildResponseEntity(apiError);
     }
+
+    @ExceptionHandler(OwnerMismatchException.class)
+    protected ResponseEntity<Object> handleOwnerMismatch() {
+        ApiError apiError = new ApiError(BAD_REQUEST);
+        apiError.setMessage("Owner doesn't match with User");
+        return buildResponseEntity(apiError);
+    }
 }
