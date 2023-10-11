@@ -1,6 +1,7 @@
 package fr.ishtamar.chatop.service;
 
 import fr.ishtamar.chatop.dto.UserDto;
+import fr.ishtamar.chatop.entity.UserInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,7 +29,7 @@ public class UserInfoServiceIT {
     }
 
     @Test void testGetUserById() {
-        UserDetails user=userInfoService.getUserById(10L);
-        assertThat(user.getUsername()).isEqualTo("test@test.com");
+        UserInfo user=userInfoService.getUserById(10L);
+        assertThat(user.getEmail()).isEqualTo("test@test.com");
     }
 }

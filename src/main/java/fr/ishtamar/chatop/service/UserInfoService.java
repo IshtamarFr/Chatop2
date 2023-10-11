@@ -78,19 +78,36 @@ public class UserInfoService implements UserDetailsService {
         Optional<UserInfo> userDetail = repository.findById(id);
         // Converting userDetail to UserDto
         return userDetail.map(UserDto::new)
-                .orElseThrow(() -> new EntityNotFoundException(UserDetails.class,"id",id.toString()));
+                .orElseThrow(() -> new EntityNotFoundException(UserInfo.class,"id",id.toString()));
     }
 
     /**
      * Tries to find User by long id
      * @param id Long id for user
-     * @return UserDetails corresponding
+     * @return UserInfo corresponding
      * @throws EntityNotFoundException
      */
-    public UserDetails getUserById(Long id) throws EntityNotFoundException {
-        Optional<UserInfo> userDetail = repository.findById(id);
-        // Converting userDetail to UserDetails
-        return userDetail.map(UserInfoDetails::new)
-                .orElseThrow(() -> new EntityNotFoundException(UserDetails.class,"id",id.toString()));
+    public UserInfo getUserById(Long id) throws EntityNotFoundException {
+        Optional<UserInfo> user = repository.findById(id);
+        if (user.isPresent()) {
+            return user.get();
+        } else {
+            throw new EntityNotFoundException(UserInfo.class,"id",id.toString());
+        }
+    }
+
+    /**
+     * Tries to find user by its username
+     * @param username String for user
+     * @return UserInfo corresponding
+     * @throws EntityNotFoundException
+     */
+    public UserInfo getUserByUsername(String username) throws EntityNotFoundException {
+        Optional<UserInfo> user = repository.findByEmail(username);
+        if (user.isPresent()) {
+            return user.get();
+        } else {
+            throw new EntityNotFoundException(UserInfo.class,"username",username);
+        }
     }
 }
