@@ -67,9 +67,11 @@ public class RentalService {
     /**
      * Saves rental into database
      * @param rental Rental to be saved
-     * @return saved Rental
+     * @return saved RentalDto
      */
-    public Rental saveRental(Rental rental) {
-        return repository.save(rental);
+    public RentalDto saveRental(Rental rental) {
+        Rental savedRental=repository.save(rental);
+        RentalDto rentalDto=new RentalDto(savedRental);
+        return rentalDto;
     }
 }

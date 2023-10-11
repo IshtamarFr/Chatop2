@@ -54,7 +54,7 @@ public class RentalController {
     })
     @PostMapping("/rentals")
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    public Rental createRental(
+    public RentalDto createRental(
             //@formatter:off
             @RequestPart("picture") MultipartFile multipartFile,
             @RequestParam("name") String name,
