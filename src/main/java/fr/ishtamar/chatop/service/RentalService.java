@@ -39,7 +39,7 @@ public class RentalService {
      * Gets a rental by Id if it exists
      * @param id id for rental
      * @return Rental
-     * @throws EntityNotFoundException
+     * @throws EntityNotFoundException Rental id not found
      */
     public RentalDto getRentalById(final Long id) throws EntityNotFoundException {
         Optional<Rental>rental=repository.findById(id);
@@ -56,7 +56,7 @@ public class RentalService {
      * Saves picture to local folder and returns file path and name
      * @param multipartFile Picture to save
      * @return path/"obfuscated file name"
-     * @throws IOException
+     * @throws IOException Couldn't save file in folder
      */
     public String savePicture(MultipartFile multipartFile) throws IOException {
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
@@ -71,7 +71,6 @@ public class RentalService {
      */
     public RentalDto saveRental(Rental rental) {
         Rental savedRental=repository.save(rental);
-        RentalDto rentalDto=new RentalDto(savedRental);
-        return rentalDto;
+        return new RentalDto(savedRental);
     }
 }

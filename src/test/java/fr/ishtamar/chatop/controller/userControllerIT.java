@@ -23,7 +23,7 @@ public class userControllerIT {
     @Autowired
     private MockMvc mockMvc;
 
-    ObjectMapper mapper=new ObjectMapper();
+    final ObjectMapper mapper=new ObjectMapper();
 
     @Test
     public void testWelcomeIsOk() throws Exception {

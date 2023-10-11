@@ -25,7 +25,7 @@ public class UserInfoService implements UserDetailsService {
      * Tries to find user corresponding to unique username
      * @param username Unique name or email
      * @return User corresponding to username
-     * @throws UsernameNotFoundException
+     * @throws UsernameNotFoundException Username not found
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws EntityNotFoundException {
@@ -40,17 +40,15 @@ public class UserInfoService implements UserDetailsService {
     /**
      * Tries to add user if they don't exist
      * @param userInfo User's data
-     * @return a validation String
-     * @throws EmailAlreadyUsedException
+     * @throws EmailAlreadyUsedException User is already registered
      */
-    public String addUser(UserInfo userInfo) throws EmailAlreadyUsedException {
+    public void addUser(UserInfo userInfo) throws EmailAlreadyUsedException {
         Optional<UserInfo> userDetail = repository.findByEmail(userInfo.getEmail());
         if (userDetail.isPresent()){
             throw new EmailAlreadyUsedException();
         } else {
             userInfo.setPassword(encoder.encode(userInfo.getPassword()));
             repository.save(userInfo);
-            return "User Added Successfully";
         }
     }
 
@@ -58,7 +56,7 @@ public class UserInfoService implements UserDetailsService {
      * Tries to find user corresponding to unique unsername
      * @param username Unique name or email
      * @return User DTO (data-protection safe)
-     * @throws UsernameNotFoundException
+     * @throws UsernameNotFoundException Username not found
      */
     public UserDto getUserDtoByUsername(String username) throws EntityNotFoundException {
         //[X-01] Choose findByName or findByEmail
@@ -72,7 +70,7 @@ public class UserInfoService implements UserDetailsService {
      * Tries to find UserDto by long id
      * @param id Long id for user
      * @return UserDto corresponding
-     * @throws EntityNotFoundException
+     * @throws EntityNotFoundException User Id not found
      */
     public UserDto getUserDtoById(Long id) throws EntityNotFoundException {
         Optional<UserInfo> userDetail = repository.findById(id);
@@ -85,7 +83,7 @@ public class UserInfoService implements UserDetailsService {
      * Tries to find User by long id
      * @param id Long id for user
      * @return UserInfo corresponding
-     * @throws EntityNotFoundException
+     * @throws EntityNotFoundException User Id not found
      */
     public UserInfo getUserById(Long id) throws EntityNotFoundException {
         Optional<UserInfo> user = repository.findById(id);
@@ -100,7 +98,7 @@ public class UserInfoService implements UserDetailsService {
      * Tries to find user by its username
      * @param username String for user
      * @return UserInfo corresponding
-     * @throws EntityNotFoundException
+     * @throws EntityNotFoundException Username not found
      */
     public UserInfo getUserByUsername(String username) throws EntityNotFoundException {
         Optional<UserInfo> user = repository.findByEmail(username);

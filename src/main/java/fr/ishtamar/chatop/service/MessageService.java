@@ -20,7 +20,7 @@ public class MessageService {
     @Autowired private RentalRepository rentalRepository;
     @Autowired private UserInfoRepository userInfoRepository;
 
-    public Message saveMessage(MessageDto message) {
+    public void saveMessage(MessageDto message) {
         Optional<UserInfo> user = userInfoRepository.findById(message.getUser_id());
         if (user.isPresent()) {
             Optional<Rental> rental = rentalRepository.findById(message.getRental_id());
@@ -28,7 +28,7 @@ public class MessageService {
                 Message realMessage=new Message(message);
                 realMessage.setUser(user.get());
                 realMessage.setRental(rental.get());
-                return messageRepository.save(realMessage);
+                messageRepository.save(realMessage);
             } else {
                 throw new EntityNotFoundException(Rental.class,"id",message.getRental_id().toString());
             }
