@@ -14,6 +14,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+/**
+ * Each custom Exception should be implemented here
+ */
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {

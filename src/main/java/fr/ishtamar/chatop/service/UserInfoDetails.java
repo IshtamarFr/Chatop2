@@ -25,7 +25,6 @@ public class UserInfoDetails implements UserDetails {
      * @param userInfo User
      */
     public UserInfoDetails(UserInfo userInfo) {
-        //[X-01] Choose getName or getEmail
         name = userInfo.getEmail();
         password = userInfo.getPassword();
         authorities = Arrays.stream(userInfo.getRoles().split(","))

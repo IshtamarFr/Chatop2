@@ -45,7 +45,6 @@ public class userControllerIT {
 
     @Test
     public void testLogin() throws Exception {
-        //[X-01] Choose getName or getEmail
         AuthRequest mockRequest=new AuthRequest();
         mockRequest.setEmail("test@test.com");
         mockRequest.setPassword("123456");

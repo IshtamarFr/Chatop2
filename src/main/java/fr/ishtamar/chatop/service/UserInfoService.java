@@ -29,7 +29,6 @@ public class UserInfoService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws EntityNotFoundException {
-        //[X-01] Choose findByName or findByEmail
         Optional<UserInfo> userDetail = repository.findByEmail(username);
 
         // Converting userDetail to UserDetails
@@ -59,7 +58,6 @@ public class UserInfoService implements UserDetailsService {
      * @throws UsernameNotFoundException Username not found
      */
     public UserDto getUserDtoByUsername(String username) throws EntityNotFoundException {
-        //[X-01] Choose findByName or findByEmail
         Optional<UserInfo> userDetail = repository.findByEmail(username);
         // Converting userDetail to UserDto
         return userDetail.map(UserDto::new)

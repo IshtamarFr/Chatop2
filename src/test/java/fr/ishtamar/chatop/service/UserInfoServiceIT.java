@@ -16,14 +16,12 @@ public class UserInfoServiceIT {
 
     @Test
     public void testLoadUserByUserName() {
-        //[X-01] Choose test@test.com or Ishta
         UserDetails user= userInfoService.loadUserByUsername("test@test.com");
         assertThat(user.getUsername()).isEqualTo("test@test.com");
     }
 
     @Test
     public void testUserDto() {
-        //[X-01] Choose test@test.com or Ishta
         UserDto userDto=userInfoService.getUserDtoByUsername("test@test.com");
         assertThat(userDto.getName()).isEqualTo("Ishta");
     }
