@@ -39,15 +39,15 @@ public class OpenAPIConfig {
         prodServer.setDescription("Server URL in Production environment");
 
         Contact contact = new Contact();
-        contact.setEmail("test@test.com");
-        contact.setName("test");
+        contact.setEmail("chatop@test.com");
+        contact.setName("Chatop");
         contact.setUrl("https://test.com");
 
         Info info = new Info()
-                .title("Test API")
+                .title("API Chatop")
                 .version("1.0")
                 .contact(contact)
-                .description("This API exposes endpoints as a starter.").termsOfService("https://test.com");
+                .description("This API exposes endpoints for Chatop webapp.").termsOfService("https://chatop.test.com");
 
         return new OpenAPI().addSecurityItem(new SecurityRequirement().
                 addList("Bearer Authentication"))

@@ -10,6 +10,7 @@ import fr.ishtamar.chatop.service.UserInfoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -39,9 +40,10 @@ public class RentalController {
         return map;
     }
 
-    @Operation(summary = "gets lists of all rentals",responses={
+    @Operation(summary = "gets chosen rental",responses={
             @ApiResponse(responseCode="200", description = "Rentals are displayed"),
-            @ApiResponse(responseCode="403", description = "Access unauthorized")
+            @ApiResponse(responseCode="403", description = "Access unauthorized"),
+            @ApiResponse(responseCode="404", description = "Rental not found")
     })
     @GetMapping("/rentals/{id}")
     @PreAuthorize("hasAuthority('ROLE_USER')")
@@ -53,7 +55,7 @@ public class RentalController {
             @ApiResponse(responseCode="200", description = "Successfully created new rental"),
             @ApiResponse(responseCode="403", description = "Access unauthorized")
     })
-    @PostMapping("/rentals")
+    @PostMapping(value = "/rentals",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasAuthority('ROLE_USER')")
     public RentalDto createRental(
             //@formatter:off
@@ -62,7 +64,7 @@ public class RentalController {
             @RequestParam("surface") float surface,
             @RequestParam("price") float price,
             @RequestParam("description") String description,
-            @RequestHeader("Authorization") String jwt
+            @RequestHeader(value="Authorization",required = false) String jwt
             //@formatter:on
     ) throws Exception {
         String username = jwtService.extractUsername(jwt.substring(7));
@@ -98,7 +100,7 @@ public class RentalController {
             @RequestParam("price") float price,
             @RequestParam("description") String description,
             @PathVariable("id") long id,
-            @RequestHeader("Authorization") String jwt
+            @RequestHeader(value="Authorization",required=false) String jwt
             //@formatter: on
     ) throws OwnerMismatchException {
         //we first try to check get the owner's id from jwt owner (already validated)

@@ -53,13 +53,14 @@ public class UserController {
     })
     @GetMapping("/auth/me")
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    public UserDto userProfile(@RequestHeader("Authorization") String jwt) {
+    public UserDto userProfile(@RequestHeader(value="Authorization",required=false) String jwt) {
         return service.getUserDtoByUsername(jwtService.extractUsername(jwt.substring(7)));
     }
 
     @Operation(summary = "logins user and returns JWT",responses={
             @ApiResponse(responseCode="200", description = "Token successfully created"),
-            @ApiResponse(responseCode="403", description = "Access unauthorized")
+            @ApiResponse(responseCode="403", description = "Access unauthorized"),
+            @ApiResponse(responseCode="404", description = "Username not found")
     })
     @PostMapping("/auth/login")
     public Map<String,String> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
