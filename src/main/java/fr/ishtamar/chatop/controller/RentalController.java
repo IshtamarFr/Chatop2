@@ -79,7 +79,7 @@ public class RentalController {
     @Operation(summary = "modify owner's rental",responses={
             @ApiResponse(responseCode="200", description = "Successfully created new rental"),
             @ApiResponse(responseCode="403", description = "Access unauthorized"),
-            @ApiResponse(responseCode = "400", description="Incorrect user")
+            @ApiResponse(responseCode="400", description="Incorrect user")
     })
     @PutMapping("/rentals/{id}")
     @PreAuthorize("hasAuthority('ROLE_USER')")

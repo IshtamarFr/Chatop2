@@ -1,11 +1,15 @@
 package fr.ishtamar.chatop.dto;
 
 import fr.ishtamar.chatop.entity.Rental;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class RentalDto {
     private Long id;
 

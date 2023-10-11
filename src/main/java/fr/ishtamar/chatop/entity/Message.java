@@ -1,5 +1,6 @@
 package fr.ishtamar.chatop.entity;
 
+import fr.ishtamar.chatop.dto.MessageDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -38,4 +39,8 @@ public class Message {
 
     @UpdateTimestamp
     private Date updated_at;
+
+    public Message(MessageDto mess) {
+        message=mess.getMessage();
+    }
 }
