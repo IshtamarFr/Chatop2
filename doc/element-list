@@ -1,0 +1,10 @@
+fr.ishtamar.chatop
+fr.ishtamar.chatop.config
+fr.ishtamar.chatop.controller
+fr.ishtamar.chatop.dto
+fr.ishtamar.chatop.entity
+fr.ishtamar.chatop.exceptionhandler
+fr.ishtamar.chatop.filter
+fr.ishtamar.chatop.repository
+fr.ishtamar.chatop.service
+fr.ishtamar.chatop.util
