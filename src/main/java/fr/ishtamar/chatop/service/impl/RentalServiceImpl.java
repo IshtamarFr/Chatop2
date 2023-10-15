@@ -1,9 +1,7 @@
 package fr.ishtamar.chatop.service.impl;
 
-import fr.ishtamar.chatop.dto.RentalDto;
 import fr.ishtamar.chatop.entity.Rental;
 import fr.ishtamar.chatop.exceptionhandler.EntityNotFoundException;
-import fr.ishtamar.chatop.mapper.RentalMapper;
 import fr.ishtamar.chatop.repository.RentalRepository;
 import fr.ishtamar.chatop.service.RentalService;
 import fr.ishtamar.chatop.util.FileUploadUtil;
@@ -14,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class RentalServiceImpl implements RentalService {
@@ -33,7 +32,7 @@ public class RentalServiceImpl implements RentalService {
 
     @Override
     public String savePicture(MultipartFile multipartFile) throws IOException {
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         String filecode = FileUploadUtil.saveFile(fileName, multipartFile);
         return ("/Files-Upload/" + filecode);
     }
