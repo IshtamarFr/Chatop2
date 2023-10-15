@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
 
@@ -39,6 +41,9 @@ public class RentalDto {
     @Size(max=2000)
     private String description;
 
+    @CreatedDate
     private Date created_at;
+
+    @UpdateTimestamp
     private Date updated_at;
 }

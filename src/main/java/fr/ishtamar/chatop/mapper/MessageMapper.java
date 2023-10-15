@@ -32,6 +32,7 @@ public class MessageMapper {
                 .message(message.getMessage())
                 .user(userInfoService.getUserById(message.getUser_id()))
                 .rental(rentalService.getRentalById(message.getRental_id()))
+                .created_at(message.getCreated_at())
                 .build();
     }
 }

@@ -33,6 +33,7 @@ public class RentalMapper {
                 .surface(rental.getSurface())
                 .price(rental.getPrice())
                 .description(rental.getDescription())
+                .created_at(rental.getCreated_at())
                 .build();
     }
 

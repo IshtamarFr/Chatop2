@@ -5,6 +5,7 @@ import fr.ishtamar.chatop.entity.Message;
 import fr.ishtamar.chatop.entity.Rental;
 import fr.ishtamar.chatop.entity.UserInfo;
 import fr.ishtamar.chatop.exceptionhandler.EntityNotFoundException;
+import fr.ishtamar.chatop.mapper.MessageMapper;
 import fr.ishtamar.chatop.repository.MessageRepository;
 import fr.ishtamar.chatop.repository.RentalRepository;
 import fr.ishtamar.chatop.repository.UserInfoRepository;
@@ -18,24 +19,19 @@ import java.util.Optional;
 public class MessageServiceImpl implements MessageService {
     @Autowired
     private MessageRepository messageRepository;
-    @Autowired private RentalRepository rentalRepository;
-    @Autowired private UserInfoRepository userInfoRepository;
+    @Autowired
+    private RentalRepository rentalRepository;
+    @Autowired
+    private UserInfoRepository userInfoRepository;
+    @Autowired
+    private MessageMapper messageMapper;
 
     @Override
     public void saveMessage(MessageDto message) {
-        Optional<UserInfo> user = userInfoRepository.findById(message.getUser_id());
-        if (user.isPresent()) {
-            Optional<Rental> rental = rentalRepository.findById(message.getRental_id());
-            if (rental.isPresent()) {
-                Message realMessage=new Message(message);
-                realMessage.setUser(user.get());
-                realMessage.setRental(rental.get());
-                messageRepository.save(realMessage);
-            } else {
-                throw new EntityNotFoundException(Rental.class,"id",message.getRental_id().toString());
-            }
-        } else {
-            throw new EntityNotFoundException(UserInfo.class,"id",message.getUser_id().toString());
-        }
+        UserInfo user = userInfoRepository.findById(message.getUser_id()).
+                orElseThrow(()->new EntityNotFoundException(UserInfo.class,"id",message.getUser_id().toString()));
+        Rental rental = rentalRepository.findById(message.getRental_id())
+                .orElseThrow(()->new EntityNotFoundException(Rental.class,"id",message.getRental_id().toString()));
+        messageRepository.save(messageMapper.toEntity(message));
     }
 }

@@ -36,7 +36,6 @@ public class Message {
     private String message;
 
     @CreatedDate
-    @Column(updatable = false)
     private Date created_at=new Date();
 
     @UpdateTimestamp

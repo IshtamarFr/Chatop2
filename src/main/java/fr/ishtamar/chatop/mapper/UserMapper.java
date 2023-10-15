@@ -20,6 +20,7 @@ public class UserMapper {
         return UserInfo.builder()
                 .name(user.getName())
                 .email(user.getEmail())
+                .created_at(user.getCreated_at())
                 .build();
     }
 }

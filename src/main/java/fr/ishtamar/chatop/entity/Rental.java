@@ -42,7 +42,6 @@ public class Rental {
     private String description;
 
     @CreatedDate
-    @Column(updatable = false)
     private Date created_at=new Date();
 
     @UpdateTimestamp

@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
 
@@ -27,6 +29,9 @@ public class MessageDto {
     @Size(max=2000)
     private String message;
 
+    @CreatedDate
     private Date created_at=new Date();
+
+    @UpdateTimestamp
     private Date updated_at;
 }
