@@ -1,26 +1,14 @@
 package fr.ishtamar.chatop.service;
 
-import fr.ishtamar.chatop.exceptionhandler.EntityNotFoundException;
-import fr.ishtamar.chatop.repository.UserInfoRepository;
 import fr.ishtamar.chatop.dto.UserDto;
 import fr.ishtamar.chatop.entity.UserInfo;
 import fr.ishtamar.chatop.exceptionhandler.EmailAlreadyUsedException;
-import org.springframework.beans.factory.annotation.Autowired;
+import fr.ishtamar.chatop.exceptionhandler.EntityNotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
-@Service
-public class UserInfoService implements UserDetailsService {
-    @Autowired
-    private UserInfoRepository repository;
-    @Autowired
-    private PasswordEncoder encoder;
-
+public interface UserInfoService extends UserDetailsService {
     /**
      * Tries to find user corresponding to unique username
      * @param username Unique name or email
@@ -28,28 +16,14 @@ public class UserInfoService implements UserDetailsService {
      * @throws UsernameNotFoundException Username not found
      */
     @Override
-    public UserDetails loadUserByUsername(String username) throws EntityNotFoundException {
-        Optional<UserInfo> userDetail = repository.findByEmail(username);
-
-        // Converting userDetail to UserDetails
-        return userDetail.map(UserInfoDetails::new)
-                .orElseThrow(() -> new EntityNotFoundException(UserDetails.class,"username",username));
-    }
+    public UserDetails loadUserByUsername(String username) throws EntityNotFoundException;
 
     /**
      * Tries to add user if they don't exist
      * @param userInfo User's data
      * @throws EmailAlreadyUsedException User is already registered
      */
-    public void addUser(UserInfo userInfo) throws EmailAlreadyUsedException {
-        Optional<UserInfo> userDetail = repository.findByEmail(userInfo.getEmail());
-        if (userDetail.isPresent()){
-            throw new EmailAlreadyUsedException();
-        } else {
-            userInfo.setPassword(encoder.encode(userInfo.getPassword()));
-            repository.save(userInfo);
-        }
-    }
+    public void addUser(UserInfo userInfo) throws EmailAlreadyUsedException;
 
     /**
      * Tries to find user corresponding to unique unsername
@@ -57,12 +31,7 @@ public class UserInfoService implements UserDetailsService {
      * @return User DTO (data-protection safe)
      * @throws UsernameNotFoundException Username not found
      */
-    public UserDto getUserDtoByUsername(String username) throws EntityNotFoundException {
-        Optional<UserInfo> userDetail = repository.findByEmail(username);
-        // Converting userDetail to UserDto
-        return userDetail.map(UserDto::new)
-                .orElseThrow(() -> new EntityNotFoundException(UserDetails.class,"username",username));
-    }
+    public UserDto getUserDtoByUsername(String username) throws EntityNotFoundException;
 
     /**
      * Tries to find UserDto by long id
@@ -70,12 +39,7 @@ public class UserInfoService implements UserDetailsService {
      * @return UserDto corresponding
      * @throws EntityNotFoundException User Id not found
      */
-    public UserDto getUserDtoById(Long id) throws EntityNotFoundException {
-        Optional<UserInfo> userDetail = repository.findById(id);
-        // Converting userDetail to UserDto
-        return userDetail.map(UserDto::new)
-                .orElseThrow(() -> new EntityNotFoundException(UserInfo.class,"id",id.toString()));
-    }
+    public UserDto getUserDtoById(Long id) throws EntityNotFoundException;
 
     /**
      * Tries to find User by long id
@@ -83,14 +47,7 @@ public class UserInfoService implements UserDetailsService {
      * @return UserInfo corresponding
      * @throws EntityNotFoundException User Id not found
      */
-    public UserInfo getUserById(Long id) throws EntityNotFoundException {
-        Optional<UserInfo> user = repository.findById(id);
-        if (user.isPresent()) {
-            return user.get();
-        } else {
-            throw new EntityNotFoundException(UserInfo.class,"id",id.toString());
-        }
-    }
+    public UserInfo getUserById(Long id) throws EntityNotFoundException;
 
     /**
      * Tries to find user by its username
@@ -98,12 +55,5 @@ public class UserInfoService implements UserDetailsService {
      * @return UserInfo corresponding
      * @throws EntityNotFoundException Username not found
      */
-    public UserInfo getUserByUsername(String username) throws EntityNotFoundException {
-        Optional<UserInfo> user = repository.findByEmail(username);
-        if (user.isPresent()) {
-            return user.get();
-        } else {
-            throw new EntityNotFoundException(UserInfo.class,"username",username);
-        }
-    }
+    public UserInfo getUserByUsername(String username) throws EntityNotFoundException;
 }

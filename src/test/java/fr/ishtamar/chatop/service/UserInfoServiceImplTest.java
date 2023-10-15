@@ -2,6 +2,7 @@ package fr.ishtamar.chatop.service;
 
 import fr.ishtamar.chatop.repository.UserInfoRepository;
 import fr.ishtamar.chatop.entity.UserInfo;
+import fr.ishtamar.chatop.service.impl.UserInfoServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,13 +15,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class UserInfoServiceTest {
+public class UserInfoServiceImplTest {
     @Mock
     UserInfoRepository userInfoRepository;
     @Mock
     PasswordEncoder encoder;
     @InjectMocks
-    UserInfoService userInfoService;
+    UserInfoServiceImpl userInfoServiceImpl;
 
     UserInfo mockUser;
     @BeforeEach
@@ -33,7 +34,7 @@ public class UserInfoServiceTest {
 
     @Test
     public void testAddUser() {
-        userInfoService.addUser(mockUser);
+        userInfoServiceImpl.addUser(mockUser);
         verify(userInfoRepository,times(1)).save(mockUser);
     }
 }

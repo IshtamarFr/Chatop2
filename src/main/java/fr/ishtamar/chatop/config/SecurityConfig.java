@@ -1,6 +1,6 @@
 package fr.ishtamar.chatop.config;
 
-import fr.ishtamar.chatop.service.UserInfoService;
+import fr.ishtamar.chatop.service.impl.UserInfoServiceImpl;
 import fr.ishtamar.chatop.filter.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +31,7 @@ public class SecurityConfig {
     // User Creation
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserInfoService();
+        return new UserInfoServiceImpl();
     }
 
     // Configuring HttpSecurity

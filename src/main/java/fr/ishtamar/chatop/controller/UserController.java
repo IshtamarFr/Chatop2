@@ -6,6 +6,7 @@ import fr.ishtamar.chatop.entity.UserInfo;
 import fr.ishtamar.chatop.exceptionhandler.EntityNotFoundException;
 import fr.ishtamar.chatop.service.JwtService;
 import fr.ishtamar.chatop.service.UserInfoService;
+import fr.ishtamar.chatop.service.impl.UserInfoServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import java.util.Map;
 public class UserController {
 
     @Autowired
-    private UserInfoService service;
+    private UserInfoService service=new UserInfoServiceImpl();
     @Autowired
     private JwtService jwtService;
     @Autowired

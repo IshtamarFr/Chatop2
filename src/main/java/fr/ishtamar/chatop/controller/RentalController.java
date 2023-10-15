@@ -7,6 +7,8 @@ import fr.ishtamar.chatop.exceptionhandler.OwnerMismatchException;
 import fr.ishtamar.chatop.service.JwtService;
 import fr.ishtamar.chatop.service.RentalService;
 import fr.ishtamar.chatop.service.UserInfoService;
+import fr.ishtamar.chatop.service.impl.RentalServiceImpl;
+import fr.ishtamar.chatop.service.impl.UserInfoServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +23,11 @@ import java.util.List;
 @RestController
 public class RentalController {
     @Autowired
-    private RentalService service;
+    private RentalService service=new RentalServiceImpl();
     @Autowired
     private JwtService jwtService;
     @Autowired
-    private UserInfoService userInfoService;
+    private UserInfoService userInfoService=new UserInfoServiceImpl();
 
     @Operation(summary = "gets lists of all rentals",responses={
             @ApiResponse(responseCode="200", description = "Rentals are displayed"),

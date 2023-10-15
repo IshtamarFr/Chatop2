@@ -1,7 +1,7 @@
 package fr.ishtamar.chatop.filter;
 
 import fr.ishtamar.chatop.service.JwtService;
-import fr.ishtamar.chatop.service.UserInfoService;
+import fr.ishtamar.chatop.service.impl.UserInfoServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,7 +29,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private JwtService jwtService;
 
     @Autowired
-    private UserInfoService userDetailsService;
+    private UserInfoServiceImpl userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
