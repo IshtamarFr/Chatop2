@@ -13,7 +13,7 @@ public interface RentalService {
      * Gets all rentals
      * @return List of all rentals
      */
-    public List<RentalDto> getAllRentals();
+    List<RentalDto> getAllRentals();
 
     /**
      * Gets a rental by Id if it exists
@@ -21,7 +21,7 @@ public interface RentalService {
      * @return Rental
      * @throws EntityNotFoundException Rental id not found
      */
-    public RentalDto getRentalById(final Long id) throws EntityNotFoundException;
+    RentalDto getRentalById(final Long id) throws EntityNotFoundException;
 
     /**
      * Saves picture to local folder and returns file path and name
@@ -29,12 +29,12 @@ public interface RentalService {
      * @return path/"obfuscated file name"
      * @throws IOException Couldn't save file in folder
      */
-    public String savePicture(MultipartFile multipartFile) throws IOException;
+    String savePicture(MultipartFile multipartFile) throws IOException;
 
     /**
      * Saves rental into database
      * @param rental Rental to be saved
      * @return saved RentalDto
      */
-    public RentalDto saveRental(Rental rental);
+    RentalDto saveRental(Rental rental);
 }

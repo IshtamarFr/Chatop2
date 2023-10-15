@@ -29,12 +29,4 @@ public class UserDto {
 
     private Date created_at;
     private Date updated_at;
-
-    public UserDto(UserInfo userInfo) {
-        id= userInfo.getId();
-        name= userInfo.getName();
-        email = userInfo.getEmail();
-        created_at=userInfo.getCreated_at();
-        updated_at=userInfo.getUpdated_at();
-    }
 }

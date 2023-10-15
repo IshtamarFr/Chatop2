@@ -1,6 +1,5 @@
 package fr.ishtamar.chatop.service;
 
-import fr.ishtamar.chatop.dto.UserDto;
 import fr.ishtamar.chatop.entity.UserInfo;
 import fr.ishtamar.chatop.exceptionhandler.EmailAlreadyUsedException;
 import fr.ishtamar.chatop.exceptionhandler.EntityNotFoundException;
@@ -16,14 +15,14 @@ public interface UserInfoService extends UserDetailsService {
      * @throws UsernameNotFoundException Username not found
      */
     @Override
-    public UserDetails loadUserByUsername(String username) throws EntityNotFoundException;
+    UserDetails loadUserByUsername(String username) throws EntityNotFoundException;
 
     /**
      * Tries to add user if they don't exist
      * @param userInfo User's data
      * @throws EmailAlreadyUsedException User is already registered
      */
-    public void addUser(UserInfo userInfo) throws EmailAlreadyUsedException;
+    void addUser(UserInfo userInfo) throws EmailAlreadyUsedException;
 
     /**
      * Tries to find User by long id
@@ -31,7 +30,7 @@ public interface UserInfoService extends UserDetailsService {
      * @return UserInfo corresponding
      * @throws EntityNotFoundException User Id not found
      */
-    public UserInfo getUserById(Long id) throws EntityNotFoundException;
+    UserInfo getUserById(Long id) throws EntityNotFoundException;
 
     /**
      * Tries to find user by its username
@@ -39,5 +38,5 @@ public interface UserInfoService extends UserDetailsService {
      * @return UserInfo corresponding
      * @throws EntityNotFoundException Username not found
      */
-    public UserInfo getUserByUsername(String username) throws EntityNotFoundException;
+    UserInfo getUserByUsername(String username) throws EntityNotFoundException;
 }

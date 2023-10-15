@@ -47,11 +47,4 @@ public class Rental {
 
     @UpdateTimestamp
     private Date updated_at;
-
-    public Rental(RentalDto rentalDto){
-        name=rentalDto.getName();
-        surface=rentalDto.getSurface();
-        price=rentalDto.getPrice();
-        description=rentalDto.getDescription();
-    }
 }

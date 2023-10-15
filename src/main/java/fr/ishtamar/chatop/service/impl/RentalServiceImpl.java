@@ -3,6 +3,7 @@ package fr.ishtamar.chatop.service.impl;
 import fr.ishtamar.chatop.dto.RentalDto;
 import fr.ishtamar.chatop.entity.Rental;
 import fr.ishtamar.chatop.exceptionhandler.EntityNotFoundException;
+import fr.ishtamar.chatop.mapper.RentalMapper;
 import fr.ishtamar.chatop.repository.RentalRepository;
 import fr.ishtamar.chatop.service.RentalService;
 import fr.ishtamar.chatop.util.FileUploadUtil;
@@ -19,23 +20,19 @@ import java.util.Optional;
 public class RentalServiceImpl implements RentalService {
     @Autowired
     private RentalRepository repository;
+    @Autowired
+    private RentalMapper rentalMapper;
 
     @Override
     public List<RentalDto> getAllRentals() {
-        return repository.findAll().stream().map(rental -> {
-            RentalDto eDto = new RentalDto(rental);
-            eDto.setOwner_id(rental.getUser().getId());
-            return eDto;
-        }).toList();
+        return repository.findAll().stream().map(rental -> rentalMapper.toDto(rental)).toList();
     }
 
     @Override
     public RentalDto getRentalById(final Long id) throws EntityNotFoundException {
         Optional<Rental>rental=repository.findById(id);
         if (rental.isPresent()) {
-            RentalDto rentalDto=new RentalDto(rental.get());
-            rentalDto.setOwner_id(rental.get().getUser().getId());
-            return rentalDto;
+            return rentalMapper.toDto(rental.get());
         } else {
             throw new EntityNotFoundException(Rental.class,"id",id.toString());
         }
@@ -50,7 +47,6 @@ public class RentalServiceImpl implements RentalService {
 
     @Override
     public RentalDto saveRental(Rental rental) {
-        Rental savedRental=repository.save(rental);
-        return new RentalDto(savedRental);
+        return rentalMapper.toDto(repository.save(rental));
     }
 }

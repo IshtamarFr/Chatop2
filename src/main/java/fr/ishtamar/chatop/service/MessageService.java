@@ -8,5 +8,5 @@ public interface MessageService {
      * Saves message to database
      * @param message Message to be saved
      */
-    public void saveMessage(MessageDto message);
+    void saveMessage(MessageDto message);
 }

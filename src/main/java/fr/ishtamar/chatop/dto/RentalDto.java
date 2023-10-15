@@ -41,16 +41,4 @@ public class RentalDto {
 
     private Date created_at;
     private Date updated_at;
-
-    public RentalDto(Rental rental) {
-        id=rental.getId();
-        name=rental.getName();
-        owner_id=rental.getUser().getId();
-        surface= rental.getSurface();
-        price=rental.getPrice();
-        picture=rental.getPicture();
-        description=rental.getDescription();
-        created_at=rental.getCreated_at();
-        updated_at=rental.getUpdated_at();
-    }
 }
