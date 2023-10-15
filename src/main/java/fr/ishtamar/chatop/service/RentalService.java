@@ -25,14 +25,11 @@ public class RentalService {
      * @return List of all rentals
      */
     public List<RentalDto> getAllRentals() {
-        List<Rental>rentals=repository.findAll();
-        List<RentalDto>rentalDtos=new ArrayList<>();
-        for (Rental rental : rentals) {
+        return repository.findAll().stream().map(rental -> {
             RentalDto eDto = new RentalDto(rental);
             eDto.setOwner_id(rental.getUser().getId());
-            rentalDtos.add(eDto);
-        }
-        return rentalDtos;
+            return eDto;
+        }).toList();
     }
 
     /**

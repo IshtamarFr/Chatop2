@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 Files-Upload/
+doc/
 
 ### STS ###
 .apt_generated
