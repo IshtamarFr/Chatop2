@@ -4,6 +4,7 @@ import fr.ishtamar.chatop.dto.RentalDto;
 import fr.ishtamar.chatop.entity.Rental;
 import fr.ishtamar.chatop.entity.UserInfo;
 import fr.ishtamar.chatop.exceptionhandler.OwnerMismatchException;
+import fr.ishtamar.chatop.mapper.RentalMapper;
 import fr.ishtamar.chatop.service.JwtService;
 import fr.ishtamar.chatop.service.RentalService;
 import fr.ishtamar.chatop.service.UserInfoService;
@@ -35,6 +36,8 @@ public class RentalController {
     private JwtService jwtService;
     @Autowired
     private UserInfoService userInfoService=new UserInfoServiceImpl();
+    @Autowired
+    private RentalMapper rentalMapper;
 
     @Operation(summary = "gets lists of all rentals",responses={
             @ApiResponse(responseCode="200", description = "Rentals are displayed"),
@@ -44,7 +47,7 @@ public class RentalController {
     @PreAuthorize("hasAuthority('ROLE_USER')")
     public HashMap<String, List<RentalDto>> getAllRentals() {
         HashMap<String, List<RentalDto>> map = new HashMap<>();
-        map.put("rentals", service.getAllRentals());
+        map.put("rentals", service.getAllRentals().stream().map(rental -> rentalMapper.toDto(rental)).toList());
         return map;
     }
 
@@ -56,7 +59,7 @@ public class RentalController {
     @GetMapping("/rentals/{id}")
     @PreAuthorize("hasAuthority('ROLE_USER')")
     public RentalDto getRental(@PathVariable("id") final long id) {
-        return service.getRentalById(id);
+        return rentalMapper.toDto(service.getRentalById(id));
     }
 
     @Operation(summary = "create a new rental",responses={
@@ -84,7 +87,7 @@ public class RentalController {
             .description(description)
             .picture(service.savePicture(multipartFile))
             .build();
-        return service.saveRental(candidate);
+        return rentalMapper.toDto(service.saveRental(candidate));
     }
 
     @Operation(summary = "modify owner's rental",responses={
@@ -116,7 +119,7 @@ public class RentalController {
         String userName=jwtService.extractUsername(jwt.substring(7));
         UserInfo user=userInfoService.getUserByUsername(userName);
         long ownerId=user.getId();
-        RentalDto candidate = service.getRentalById(id);
+        RentalDto candidate = rentalMapper.toDto(service.getRentalById(id));
         if (ownerId==candidate.getOwner_id()) {
             //token's owner matches with rental's owner's id
             Rental modification=Rental.builder()
@@ -129,7 +132,7 @@ public class RentalController {
                 .user(user)
                 .created_at(candidate.getCreated_at())
                 .build();
-            return service.saveRental(modification);
+            return rentalMapper.toDto(service.saveRental(modification));
         } else {
             throw new OwnerMismatchException();
         }

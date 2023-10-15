@@ -20,22 +20,15 @@ import java.util.Optional;
 public class RentalServiceImpl implements RentalService {
     @Autowired
     private RentalRepository repository;
-    @Autowired
-    private RentalMapper rentalMapper;
 
     @Override
-    public List<RentalDto> getAllRentals() {
-        return repository.findAll().stream().map(rental -> rentalMapper.toDto(rental)).toList();
+    public List<Rental> getAllRentals() {
+        return repository.findAll();
     }
 
     @Override
-    public RentalDto getRentalById(final Long id) throws EntityNotFoundException {
-        Optional<Rental>rental=repository.findById(id);
-        if (rental.isPresent()) {
-            return rentalMapper.toDto(rental.get());
-        } else {
-            throw new EntityNotFoundException(Rental.class,"id",id.toString());
-        }
+    public Rental getRentalById(final Long id) throws EntityNotFoundException {
+        return repository.findById(id).orElseThrow(()->new EntityNotFoundException(Rental.class,"id",id.toString()));
     }
 
     @Override
@@ -46,7 +39,7 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public RentalDto saveRental(Rental rental) {
-        return rentalMapper.toDto(repository.save(rental));
+    public Rental saveRental(Rental rental) {
+        return repository.save(rental);
     }
 }

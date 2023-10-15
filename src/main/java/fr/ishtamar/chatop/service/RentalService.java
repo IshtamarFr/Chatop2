@@ -1,6 +1,5 @@
 package fr.ishtamar.chatop.service;
 
-import fr.ishtamar.chatop.dto.RentalDto;
 import fr.ishtamar.chatop.entity.Rental;
 import fr.ishtamar.chatop.exceptionhandler.EntityNotFoundException;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,7 +12,7 @@ public interface RentalService {
      * Gets all rentals
      * @return List of all rentals
      */
-    List<RentalDto> getAllRentals();
+    List<Rental> getAllRentals();
 
     /**
      * Gets a rental by Id if it exists
@@ -21,7 +20,7 @@ public interface RentalService {
      * @return Rental
      * @throws EntityNotFoundException Rental id not found
      */
-    RentalDto getRentalById(final Long id) throws EntityNotFoundException;
+    Rental getRentalById(final Long id) throws EntityNotFoundException;
 
     /**
      * Saves picture to local folder and returns file path and name
@@ -36,5 +35,5 @@ public interface RentalService {
      * @param rental Rental to be saved
      * @return saved RentalDto
      */
-    RentalDto saveRental(Rental rental);
+    Rental saveRental(Rental rental);
 }
