@@ -26,22 +26,6 @@ public interface UserInfoService extends UserDetailsService {
     public void addUser(UserInfo userInfo) throws EmailAlreadyUsedException;
 
     /**
-     * Tries to find user corresponding to unique unsername
-     * @param username Unique name or email
-     * @return User DTO (data-protection safe)
-     * @throws UsernameNotFoundException Username not found
-     */
-    public UserDto getUserDtoByUsername(String username) throws EntityNotFoundException;
-
-    /**
-     * Tries to find UserDto by long id
-     * @param id Long id for user
-     * @return UserDto corresponding
-     * @throws EntityNotFoundException User Id not found
-     */
-    public UserDto getUserDtoById(Long id) throws EntityNotFoundException;
-
-    /**
      * Tries to find User by long id
      * @param id Long id for user
      * @return UserInfo corresponding

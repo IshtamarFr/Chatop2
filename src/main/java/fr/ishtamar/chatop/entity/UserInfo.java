@@ -46,9 +46,4 @@ public class UserInfo {
 
     @UpdateTimestamp
     private Date updated_at;
-
-    public UserInfo(UserDto userDto){
-        name= userDto.getName();
-        email= userDto.getEmail();
-    }
 }

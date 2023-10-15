@@ -44,22 +44,6 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public UserDto getUserDtoByUsername(String username) throws EntityNotFoundException {
-        Optional<UserInfo> userDetail = repository.findByEmail(username);
-        // Converting userDetail to UserDto
-        return userDetail.map(UserDto::new)
-                .orElseThrow(() -> new EntityNotFoundException(UserDetails.class,"username",username));
-    }
-
-    @Override
-    public UserDto getUserDtoById(Long id) throws EntityNotFoundException {
-        Optional<UserInfo> userDetail = repository.findById(id);
-        // Converting userDetail to UserDto
-        return userDetail.map(UserDto::new)
-                .orElseThrow(() -> new EntityNotFoundException(UserInfo.class,"id",id.toString()));
-    }
-
-    @Override
     public UserInfo getUserById(Long id) throws EntityNotFoundException {
         Optional<UserInfo> user = repository.findById(id);
         if (user.isPresent()) {

@@ -21,12 +21,6 @@ public class UserInfoServiceImplIT {
         assertThat(user.getUsername()).isEqualTo("test@test.com");
     }
 
-    @Test
-    public void testUserDto() {
-        UserDto userDto= userInfoServiceImpl.getUserDtoByUsername("test@test.com");
-        assertThat(userDto.getName()).isEqualTo("Ishta");
-    }
-
     @Test void testGetUserById() {
         UserInfo user= userInfoServiceImpl.getUserById(10L);
         assertThat(user.getEmail()).isEqualTo("test@test.com");

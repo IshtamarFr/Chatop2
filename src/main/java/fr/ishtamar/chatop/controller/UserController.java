@@ -4,6 +4,7 @@ import fr.ishtamar.chatop.dto.AuthRequest;
 import fr.ishtamar.chatop.dto.UserDto;
 import fr.ishtamar.chatop.entity.UserInfo;
 import fr.ishtamar.chatop.exceptionhandler.EntityNotFoundException;
+import fr.ishtamar.chatop.mapper.UserMapper;
 import fr.ishtamar.chatop.service.JwtService;
 import fr.ishtamar.chatop.service.UserInfoService;
 import fr.ishtamar.chatop.service.impl.UserInfoServiceImpl;
@@ -29,6 +30,8 @@ public class UserController {
     private JwtService jwtService;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private UserMapper userMapper;
 
     @Operation(hidden=true)
     @GetMapping("/auth/welcome")
@@ -55,7 +58,7 @@ public class UserController {
     @GetMapping("/auth/me")
     @PreAuthorize("hasAuthority('ROLE_USER')")
     public UserDto userProfile(@RequestHeader(value="Authorization",required=false) String jwt) {
-        return service.getUserDtoByUsername(jwtService.extractUsername(jwt.substring(7)));
+        return userMapper.toDto(service.getUserByUsername(jwtService.extractUsername(jwt.substring(7))));
     }
 
     @Operation(summary = "logins user and returns JWT",responses={
@@ -82,6 +85,6 @@ public class UserController {
     @GetMapping("/user/{id}")
     @PreAuthorize("hasAuthority('ROLE_USER')")
     public UserDto getUserById(@PathVariable("id") final long id) throws EntityNotFoundException {
-        return service.getUserDtoById(id);
+        return userMapper.toDto(service.getUserById(id));
     }
 }
