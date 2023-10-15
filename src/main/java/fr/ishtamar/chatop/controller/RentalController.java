@@ -69,13 +69,14 @@ public class RentalController {
             //@formatter:on
     ) throws Exception {
         String username = jwtService.extractUsername(jwt.substring(7));
-        Rental candidate = new Rental();
-        candidate.setUser(userInfoService.getUserByUsername(username));
-        candidate.setName(name);
-        candidate.setSurface(surface);
-        candidate.setPrice(price);
-        candidate.setDescription(description);
-        candidate.setPicture(service.savePicture(multipartFile));
+        Rental candidate = Rental.builder()
+            .user(userInfoService.getUserByUsername(username))
+            .name(name)
+            .surface(surface)
+            .price(price)
+            .description(description)
+            .picture(service.savePicture(multipartFile))
+            .build();
         return service.saveRental(candidate);
     }
 
@@ -111,15 +112,16 @@ public class RentalController {
         RentalDto candidate = service.getRentalById(id);
         if (ownerId==candidate.getOwner_id()) {
             //token's owner matches with rental's owner's id
-            Rental modification=new Rental();
-            modification.setId(id);
-            modification.setName(name);
-            modification.setSurface(surface);
-            modification.setPrice(price);
-            modification.setPicture(candidate.getPicture());
-            modification.setDescription(description);
-            modification.setUser(user);
-            modification.setCreated_at(candidate.getCreated_at());
+            Rental modification=Rental.builder()
+                .id(id)
+                .name(name)
+                .surface(surface)
+                .price(price)
+                .picture(candidate.getPicture())
+                .description(description)
+                .user(user)
+                .created_at(candidate.getCreated_at())
+                .build();
             return service.saveRental(modification);
         } else {
             throw new OwnerMismatchException();
