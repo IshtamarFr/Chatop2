@@ -33,7 +33,7 @@ public interface RentalService {
     /**
      * Saves rental into database
      * @param rental Rental to be saved
-     * @return saved RentalDto
+     * @return saved Rental
      */
     Rental saveRental(Rental rental);
 }

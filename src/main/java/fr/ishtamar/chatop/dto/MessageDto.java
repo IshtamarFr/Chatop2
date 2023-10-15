@@ -29,13 +29,4 @@ public class MessageDto {
 
     private Date created_at=new Date();
     private Date updated_at;
-
-    public MessageDto(Message mess) {
-        id=mess.getId();
-        rental_id=mess.getRental().getId();
-        user_id=mess.getUser().getId();
-        message=mess.getMessage();
-        created_at=mess.getCreated_at();
-        updated_at=mess.getUpdated_at();
-    }
 }

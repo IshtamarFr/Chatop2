@@ -41,8 +41,4 @@ public class Message {
 
     @UpdateTimestamp
     private Date updated_at;
-
-    public Message(MessageDto mess) {
-        message=mess.getMessage();
-    }
 }
