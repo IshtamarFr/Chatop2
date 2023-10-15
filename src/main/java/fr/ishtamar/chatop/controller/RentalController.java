@@ -11,9 +11,14 @@ import fr.ishtamar.chatop.service.impl.RentalServiceImpl;
 import fr.ishtamar.chatop.service.impl.UserInfoServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
+@Validated
 public class RentalController {
     @Autowired
     private RentalService service=new RentalServiceImpl();
@@ -97,7 +103,7 @@ public class RentalController {
     //@formatter: on
     public RentalDto modifyRental(
             //@formatter: off
-            @RequestParam("name") String name,
+            @RequestParam("name") @NotBlank @Size(max=63) String name,
             @RequestParam("surface") float surface,
             @RequestParam("price") float price,
             @RequestParam("description") String description,

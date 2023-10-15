@@ -3,6 +3,7 @@ package fr.ishtamar.chatop.entity;
 import fr.ishtamar.chatop.dto.MessageDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,6 +32,7 @@ public class Message {
     private UserInfo user;
 
     @NotNull
+    @Size(max=2000)
     private String message;
 
     @CreatedDate
