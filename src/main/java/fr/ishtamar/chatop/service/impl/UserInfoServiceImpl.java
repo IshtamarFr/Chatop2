@@ -1,16 +1,13 @@
 package fr.ishtamar.chatop.service.impl;
 
-import fr.ishtamar.chatop.exceptionhandler.EntityNotFoundException;
-import fr.ishtamar.chatop.repository.UserInfoRepository;
-import fr.ishtamar.chatop.dto.UserDto;
 import fr.ishtamar.chatop.entity.UserInfo;
 import fr.ishtamar.chatop.exceptionhandler.EmailAlreadyUsedException;
+import fr.ishtamar.chatop.exceptionhandler.EntityNotFoundException;
+import fr.ishtamar.chatop.repository.UserInfoRepository;
 import fr.ishtamar.chatop.service.UserInfoDetails;
 import fr.ishtamar.chatop.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -45,21 +42,13 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public UserInfo getUserById(Long id) throws EntityNotFoundException {
-        Optional<UserInfo> user = repository.findById(id);
-        if (user.isPresent()) {
-            return user.get();
-        } else {
-            throw new EntityNotFoundException(UserInfo.class,"id",id.toString());
-        }
+        return repository.findById(id)
+                .orElseThrow(()->new EntityNotFoundException(UserInfo.class,"id",id.toString()));
     }
 
     @Override
     public UserInfo getUserByUsername(String username) throws EntityNotFoundException {
-        Optional<UserInfo> user = repository.findByEmail(username);
-        if (user.isPresent()) {
-            return user.get();
-        } else {
-            throw new EntityNotFoundException(UserInfo.class,"username",username);
-        }
+        return repository.findByEmail(username)
+                .orElseThrow(()->new EntityNotFoundException(UserInfo.class,"username",username));
     }
 }
