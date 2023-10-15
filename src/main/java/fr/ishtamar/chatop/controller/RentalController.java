@@ -12,6 +12,7 @@ import fr.ishtamar.chatop.service.impl.UserInfoServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -67,10 +68,10 @@ public class RentalController {
     public RentalDto createRental(
             //@formatter:off
             @RequestPart("picture") MultipartFile multipartFile,
-            @RequestParam("name") String name,
-            @RequestParam("surface") float surface,
-            @RequestParam("price") float price,
-            @RequestParam("description") String description,
+            @RequestParam("name") @NotBlank @Size(max=63) String name,
+            @RequestParam("surface") @Min(0) float surface,
+            @RequestParam("price") @Min(0) float price,
+            @RequestParam("description") @Size(max=2000) String description,
             @RequestHeader(value="Authorization",required = false) String jwt
             //@formatter:on
     ) throws Exception {
@@ -104,9 +105,9 @@ public class RentalController {
     public RentalDto modifyRental(
             //@formatter: off
             @RequestParam("name") @NotBlank @Size(max=63) String name,
-            @RequestParam("surface") float surface,
-            @RequestParam("price") float price,
-            @RequestParam("description") String description,
+            @RequestParam("surface") @Min(0) float surface,
+            @RequestParam("price") @Min(0) float price,
+            @RequestParam("description") @Size(max=2000) String description,
             @PathVariable("id") long id,
             @RequestHeader(value="Authorization",required=false) String jwt
             //@formatter: on

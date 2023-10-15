@@ -37,6 +37,8 @@ public class Rental {
     private float price;
 
     private String picture;
+
+    @Size(max=2000)
     private String description;
 
     @CreatedDate
