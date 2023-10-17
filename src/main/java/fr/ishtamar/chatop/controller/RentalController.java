@@ -45,7 +45,7 @@ public class RentalController {
     @PreAuthorize("hasAuthority('ROLE_USER')")
     public HashMap<String, List<RentalDto>> getAllRentals() {
         HashMap<String, List<RentalDto>> map = new HashMap<>();
-        map.put("rentals", service.getAllRentals().stream().map(rental -> rentalMapper.toDto(rental)).toList());
+        map.put("rentals", rentalMapper.toDto(service.getAllRentals()));
         return map;
     }
 
