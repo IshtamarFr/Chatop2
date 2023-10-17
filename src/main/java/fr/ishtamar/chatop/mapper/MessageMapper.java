@@ -1,38 +1,36 @@
 package fr.ishtamar.chatop.mapper;
 
+
 import fr.ishtamar.chatop.dto.MessageDto;
 import fr.ishtamar.chatop.entity.Message;
 import fr.ishtamar.chatop.service.RentalService;
 import fr.ishtamar.chatop.service.UserInfoService;
 import fr.ishtamar.chatop.service.impl.RentalServiceImpl;
 import fr.ishtamar.chatop.service.impl.UserInfoServiceImpl;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MessageMapper {
-    @Autowired
-    private UserInfoService userInfoService = new UserInfoServiceImpl();
-    @Autowired
-    private RentalService rentalService = new RentalServiceImpl();
+@Mapper(componentModel = "Spring")
+public abstract class MessageMapper implements EntityMapper<MessageDto, Message> {
 
-    public MessageDto toDto(Message message) {
-        return MessageDto.builder()
-                .message(message.getMessage())
-                .id(message.getId())
-                .created_at(message.getCreated_at())
-                .rental_id(message.getRental().getId())
-                .updated_at(message.getUpdated_at())
-                .user_id(message.getUser().getId())
-                .build();
-    }
+    @Autowired
+    UserInfoService userInfoService = new UserInfoServiceImpl();
+    @Autowired
+    RentalService rentalService = new RentalServiceImpl();
 
-    public Message toEntity(MessageDto message) {
-        return Message.builder()
-                .message(message.getMessage())
-                .user(userInfoService.getUserById(message.getUser_id()))
-                .rental(rentalService.getRentalById(message.getRental_id()))
-                .created_at(message.getCreated_at())
-                .build();
-    }
+    @Mappings({
+            @Mapping(target = "user", expression = "java(this.userInfoService.getUserById(messageDto.getUser_id()))"),
+            @Mapping(target = "rental", expression = "java(this.rentalService.getRentalById(messageDto.getRental_id()))")
+    })
+    public abstract Message toEntity(MessageDto messageDto);
+
+    @Mappings({
+            @Mapping(source = "message.user.id", target = "user_id"),
+            @Mapping(source = "message.rental.id", target = "rental_id")
+    })
+    public abstract MessageDto toDto(Message message);
 }
