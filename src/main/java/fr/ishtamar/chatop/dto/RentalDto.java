@@ -1,7 +1,5 @@
 package fr.ishtamar.chatop.dto;
 
-import fr.ishtamar.chatop.entity.Rental;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -42,7 +40,7 @@ public class RentalDto {
     private String description;
 
     @CreatedDate
-    private Date created_at;
+    private Date created_at = new Date();
 
     @UpdateTimestamp
     private Date updated_at;
